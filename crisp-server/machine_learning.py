@@ -23,7 +23,7 @@ def get_holiday_bias(holiday, dow, temp, forecast):
     data = []
     for i in range(12):
             data.append({'time': "%i:00 %s" %( (i + 7 -12) if (i + 7) > 12 else (i + 7), ("PM"
-    if (i + 7) >= 12 else "AM")), 'number': math.ceil((pred_sales[i] / 6)/6)})
+    if (i + 7) >= 12 else "AM")), 'number': math.ceil((pred_sales[i] / 6)/8)})
 
     return data
 
@@ -32,14 +32,25 @@ def get_normal_days(dow, temp, pred):
     df = df.loc[df['dow'].isin([dow])]
     relevant_data = []
     for index, row in df.iterrows():
-        if abs(row['weather'] -  temp) < 10:
+        if abs(row['weather'] -  temp) < 15:
             relevant_data.append({'hour':row['hour'], 'sales':row['sales']})
     if len(relevant_data) < 12:
-        return get_normal_days(dow, temp + 5, pred)
+        data = []
+        cur = pred[0]
+        for i in range(12):
+            if i <= 6:
+                cur += 15
+            if i > 6 and i < 10:
+                cur -= 5
+            else:
+                cur -= 15
+            data.append({'time': "%i:00 %s" %( ((i + 7 - 12) if (i + 7) > 12 else (i
+ + 7)), ("PM" if (i + 7) >= 12 else "AM")), 'number': math.ceil((cur/6)/8)})
+        return data
     data = []
     for i in range(12):
             data.append({'time': "%i:00 %s" %( ((i + 7 - 12) if (i + 7) > 12 else (i + 7)), ("PM"
-    if (i + 7) >= 12 else "AM")), 'number': math.ceil((relevant_data[i]['sales']/6)/6)})
+    if (i + 7) >= 12 else "AM")), 'number': math.ceil((relevant_data[i]['sales']/6)/8)})
     return data
 
 def difference(dataset, interval=1):
