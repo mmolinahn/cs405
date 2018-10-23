@@ -27,7 +27,7 @@ constructor (props) {
   render() {
     return (
       <div className="App">
-        <header className="App-header">
+	<header className="App-header">
           <h1>
 	    Crisp Scheduler
           </h1>
@@ -36,7 +36,7 @@ constructor (props) {
             selected={this.state.startDate}
             onChange={this.handleChange}
            />
-        </header>
+	</header>
 	<h2>Schedule for {this.state.display} : </h2>
 	<Grid data={this.state.data} />
       </div>
