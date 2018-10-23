@@ -31,6 +31,7 @@ constructor (props) {
           <h1>
 	    Crisp Scheduler
           </h1>
+          <img src={require('./img/logo.png')}/>
 	  <p>Please select a date to see worker needs for that day</p>
 	  <DatePicker
             selected={this.state.startDate}
